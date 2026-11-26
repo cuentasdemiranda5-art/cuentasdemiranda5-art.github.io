@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#111"><title>Custom Tileflooring</title>
+<style>
+:root{--dark:#111312;--gold:#c8a878;--cream:#f6f4ef;--text:#202521}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Arial,sans-serif;background:var(--cream);color:var(--text);line-height:1.6}
+header{position:sticky;top:0;z-index:10;background:#111;color:#fff;padding:16px 6%;display:flex;justify-content:space-between;align-items:center;gap:18px}
+.brand{font-weight:900;letter-spacing:1.5px;font-size:1.15rem}.brand span{color:var(--gold)}nav{display:flex;align-items:center;gap:20px}nav a{color:#fff;text-decoration:none;font-size:.9rem}nav a:hover{color:var(--gold)}
+#lock{border:1px solid #897b63;background:transparent;color:white;border-radius:50%;width:42px;height:42px;font-size:19px;cursor:pointer}
+.hero{min-height:570px;display:flex;align-items:center;padding:95px 8%;color:#fff;background-image:linear-gradient(90deg,rgba(0,0,0,.86),rgba(0,0,0,.25)),url('https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=2000&q=90');background-position:center;background-size:cover}
+.hero-inner{max-width:760px}.eyebrow{color:var(--gold);font-size:.8rem;font-weight:bold;letter-spacing:3px;text-transform:uppercase}
+h1{font-size:clamp(2.8rem,6vw,5.4rem);line-height:1.04;margin:14px 0}.hero p{font-size:1.1rem;max-width:650px;color:#eee}
+.btn{display:inline-block;background:var(--gold);color:#161714;text-decoration:none;font-weight:bold;padding:13px 22px;margin-top:15px;border:0;border-radius:3px;cursor:pointer}
+section{padding:76px 8%}.heading{text-align:center;max-width:720px;margin:0 auto 38px}.heading h2,.about h2,.contact h2{font-size:2.35rem;line-height:1.15;margin:10px 0}.heading p,.about p{color:#667068}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}.card{background:white;box-shadow:0 8px 28px #11111112}.photo-wrap{position:relative}.card img{width:100%;height:230px;object-fit:cover;display:block}.card-copy{padding:23px}.card h3{margin:0 0 9px;font-size:1.25rem}.card p{color:#657067;margin:0}
+.about{background:#e8e5dd;display:grid;grid-template-columns:1fr 1fr;gap:42px;align-items:center}.about img{width:100%;height:370px;object-fit:cover}
+.gallery{background:#fff}.gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.gallery-grid .photo-wrap img{width:100%;height:260px;object-fit:cover;display:block}
+.contact{text-align:center;background:#171b18;color:white}.contact p{color:#d3d6d3}
+footer{text-align:center;background:#0c0e0d;color:#b9beb9;padding:22px}
+#editor{display:none;max-width:1120px;margin:20px auto;padding:24px;background:#fff;border:1px solid #ddd2c1;border-radius:8px;box-shadow:0 8px 25px #0001}
+#editor h2{margin:0 0 8px}.editor-note{color:#626b64;font-size:.92rem}.editor-tools{display:flex;gap:10px;flex-wrap:wrap;margin:15px 0}
+.editor-tools button,.upload-label{background:#202a24;color:white;padding:10px 14px;border:0;border-radius:4px;cursor:pointer;font:inherit}.editor-tools .save{background:#315b40}.editor-tools .close{background:#555}.editor-tools .reset{background:#873b35}.extra-page{background:#f0eee8}.page-tools{justify-content:center;margin-top:18px}
+input[type=file]{display:none}.status{color:#315b40;font-weight:bold}
+.editable[contenteditable=true]{outline:2px dashed var(--gold);outline-offset:4px;cursor:text;border-radius:2px}
+.photo-wrap.editing{outline:2px dashed var(--gold);outline-offset:2px}.photo-actions{display:none;position:absolute;top:8px;right:8px;gap:5px;z-index:2}.editing .photo-actions{display:flex}.photo-actions button{border:0;background:#161a17;color:white;border-radius:4px;padding:7px 9px;cursor:pointer}.photo-actions button.delete{background:#9a342c}
+#heroUploadLabel{background:#5a4930}.small-label{font-size:.85rem;color:#555}
+@media(max-width:800px){.cards{grid-template-columns:1fr 1fr}.about{grid-template-columns:1fr}.gallery-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){header{padding:13px 4%}.brand{font-size:.9rem}nav{gap:9px}nav a{font-size:.76rem}.hero{min-height:470px;padding:70px 7%}section{padding:55px 6%}.cards,.gallery-grid{grid-template-columns:1fr}.card img,.gallery-grid .photo-wrap img{height:230px}}
+</style></head>
+<body>
+<header><div class="brand">CUSTOM <span>TILEFLOORING</span></div><nav><a href="#services">Services</a><a href="#about">About</a><a href="#gallery">Gallery</a><a href="#contact">Contact</a><button id="lock" title="Administrator login" aria-label="Administrator login">🔒</button></nav></header>
+<main>
+<section class="hero" id="hero"><div class="hero-inner"><div class="eyebrow editable">Tile installation & remodeling</div><h1 class="editable">Beautiful Tile. Quality Work. Built to Last.</h1><p class="editable">Upgrade your home with carefully installed tile, custom shower remodels, and beautiful backsplash designs.</p><a class="btn" href="#services">Explore Our Services</a></div></section>
+
+<div id="editor">
+<h2>🔐 Website editor</h2>
+<p class="editor-note">While editing, click any outlined text to change it. Use the buttons on each photo to replace or delete it. You can also change the home-page background.</p>
+<div class="editor-tools">
+<label class="upload-label" for="heroFile" id="heroUploadLabel">Change home background</label><input id="heroFile" type="file" accept="image/*">
+<label class="upload-label" for="galleryFiles">＋ Add photos to gallery</label><input id="galleryFiles" type="file" accept="image/*" multiple>
+<button id="addPage">＋ Add a new page</button><button class="save" id="save">Save all changes</button><button class="close" id="finish">Finish editing</button><button class="reset" id="reset">Restore original page</button><span class="status" id="status"></span>
+</div>
+<p class="small-label">Photo tip: you can upload image files up to 80 MB each. Large files may take longer and need enough browser storage. Your edits are saved in this browser on this computer.</p>
+</div>
+
+<section id="services"><div class="heading"><div class="eyebrow editable">What we do</div><h2 class="editable">Our Services</h2><p class="editable">Thoughtful details, quality materials, and professional tile installation for your home.</p></div>
+<div class="cards">
+<article class="card"><div class="photo-wrap"><img src="https://images.unsplash.com/photo-1620626011761-996317b8d101?auto=format&fit=crop&w=900&q=85" alt="Tiled shower"><div class="photo-actions"><button class="replace">Replace</button><button class="delete">Delete</button></div></div><div class="card-copy"><h3 class="editable">Shower &amp; Shower Remodels</h3><p class="editable">Waterproofed tile showers with new tile surrounds, curbless options, and niche installations—built to last and look exceptional.</p></div></article>
+<article class="card"><div class="photo-wrap"><img src="https://images.unsplash.com/photo-1600585154340-be6161a56c0a?auto=format&fit=crop&w=900&q=85" alt="Kitchen design"><div class="photo-actions"><button class="replace">Replace</button><button class="delete">Delete</button></div></div><div class="card-copy"><h3 class="editable">Kitchen Backsplashes</h3><p class="editable">Custom backsplash designs using ceramic, porcelain, glass, and decorative tile to elevate the heart of your home.</p></div></article>
+<article class="card"><div class="photo-wrap"><img src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=900&q=85" alt="Tile flooring"><div class="photo-actions"><button class="replace">Replace</button><button class="delete">Delete</button></div></div><div class="card-copy"><h3 class="editable">Floor &amp; Wall Tile</h3><p class="editable">Durable floor and wall installations for bathrooms and kitchens, using industry-standard layout, substrate prep, and grout finishes.</p></div></article>
+</div></section>
+
+<section class="about" id="about"><div><div class="eyebrow editable">Custom Tileflooring</div><h2 class="editable">Quality craftsmanship in every detail.</h2><p class="editable">We help bring your ideas to life with tile work designed around your space and your style. From a fresh backsplash to a complete shower transformation, every detail matters.</p></div><div class="photo-wrap"><img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1100&q=85" alt="Remodeled interior"><div class="photo-actions"><button class="replace">Replace</button><button class="delete">Delete</button></div></div></section>
+
+<section class="gallery" id="gallery"><div class="heading"><div class="eyebrow editable">Our projects</div><h2 class="editable">Project Gallery</h2><p class="editable">See tile styles and projects. Add your own completed work using the editor.</p></div><div class="gallery-grid" id="galleryGrid">
+<div class="photo-wrap"><img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=800&q=80" alt="Project example"><div class="photo-actions"><button class="replace">Replace</button><button class="delete">Delete</button></div></div>
+<div class="photo-wrap"><img src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=800&q=80" alt="Project example"><div class="photo-actions"><button class="replace">Replace</button><button class="delete">Delete</button></div></div>
+<div class="photo-wrap"><img src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=800&q=80" alt="Project example"><div class="photo-actions"><button class="replace">Replace</button><button class="delete">Delete</button></div></div>
+</div></section>
+<div id="extraPages"></div>
+<section class="contact" id="contact"><div class="eyebrow editable">Let's talk about your project</div><h2 class="editable">Ready to refresh your space?</h2><p class="editable">Contact us to discuss your tile installation or remodeling project.</p><p class="editable">Add your phone number or email here using the website editor.</p></section>
+</main><footer>© <span id="year"></span> Custom Tileflooring. All rights reserved.</footer>
+<input id="replaceFile" type="file" accept="image/*" hidden>
+<script>
+const PASSWORD="monica456798";
+const lock=document.getElementById('lock'), editor=document.getElementById('editor'), status=document.getElementById('status');
+const DB_NAME='CustomTileflooringDB', STORE='website';
+let editing=false, replaceTarget=null;
+document.getElementById('year').textContent=new Date().getFullYear();
+
+function openDB(){return new Promise((resolve,reject)=>{const req=indexedDB.open(DB_NAME,1);req.onupgradeneeded=()=>req.result.createObjectStore(STORE);req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error);});}
+async function dbSet(value){const db=await openDB();return new Promise((resolve,reject)=>{const tx=db.transaction(STORE,'readwrite');tx.objectStore(STORE).put(value,'site');tx.oncomplete=()=>{db.close();resolve();};tx.onerror=()=>{db.close();reject(tx.error);};});}
+async function dbGet(){const db=await openDB();return new Promise((resolve,reject)=>{const tx=db.transaction(STORE,'readonly'),req=tx.objectStore(STORE).get('site');req.onsuccess=()=>{db.close();resolve(req.result||null);};req.onerror=()=>{db.close();reject(req.error);};});}
+async function dbClear(){const db=await openDB();return new Promise((resolve,reject)=>{const tx=db.transaction(STORE,'readwrite');tx.objectStore(STORE).clear();tx.oncomplete=()=>{db.close();resolve();};tx.onerror=()=>{db.close();reject(tx.error);};});}
+
+function decoratePhotos(){
+ document.querySelectorAll('.photo-wrap').forEach(w=>{
+  if(w.dataset.ready==='1')return;w.dataset.ready='1';
+  if(!w.querySelector('.photo-actions')){const a=document.createElement('div');a.className='photo-actions';a.innerHTML='<button class="replace">Replace</button><button class="delete">Delete</button>';w.appendChild(a);}
+  w.querySelector('.replace').addEventListener('click',()=>{if(!editing)return;replaceTarget=w.querySelector('img');document.getElementById('replaceFile').click();});
+  w.querySelector('.delete').addEventListener('click',()=>{if(editing&&confirm('Delete this photo from the page?'))w.remove();});
+ });
+}
+function setEditing(on){editing=on;document.querySelectorAll('.editable').forEach(e=>e.contentEditable=on?'true':'false');document.querySelectorAll('.photo-wrap').forEach(w=>w.classList.toggle('editing',on));editor.style.display=on?'block':'none';lock.textContent=on?'🔓':'🔒';if(on){decoratePhotos();editor.scrollIntoView({behavior:'smooth',block:'center'});}}
+lock.addEventListener('click',()=>{if(editing){setEditing(false);return;}const p=prompt('Enter administrator password:');if(p===null)return;if(p===PASSWORD)setEditing(true);else alert('Incorrect password.');});
+
+function wrapImage(img){const w=document.createElement('div');w.className='photo-wrap';w.appendChild(img);return w;}
+function readData(file){return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result);r.onerror=rej;r.readAsDataURL(file);});}
+async function handleUpload(file,target){if(!file||!file.type.startsWith('image/'))return null;if(file.size>80*1024*1024){alert('The image is larger than 80 MB. Please choose a smaller image.');return null;}const data=await readData(file);if(target){target.src=data;target.alt=file.name;}return data;}
+
+document.getElementById('replaceFile').addEventListener('change',async e=>{if(replaceTarget&&e.target.files[0])await handleUpload(e.target.files[0],replaceTarget);e.target.value='';replaceTarget=null;});
+document.getElementById('heroFile').addEventListener('change',async e=>{const f=e.target.files[0];if(f){const data=await handleUpload(f,null);if(data)document.getElementById('hero').style.backgroundImage=`linear-gradient(90deg,rgba(0,0,0,.82),rgba(0,0,0,.25)),url("${data}")`;}e.target.value='';});
+document.getElementById('galleryFiles').addEventListener('change',async e=>{for(const f of [...e.target.files]){const data=await handleUpload(f,null);if(data){const img=document.createElement('img');img.src=data;img.alt=f.name;const w=wrapImage(img);document.getElementById('galleryGrid').appendChild(w);w.dataset.ready='';decoratePhotos();w.classList.add('editing');}}e.target.value='';});
+
+function addPage(data={}) {
+ const section=document.createElement('section');section.className='extra-page';section.innerHTML=`
+  <div class="heading"><div class="eyebrow editable">Custom Tileflooring</div>
+  <h2 class="editable">${data.title||'New Page Title'}</h2>
+  <p class="editable">${data.description||'Write information about this page here.'}</p></div>
+  <div class="gallery-grid page-photos"></div>
+  <div class="editor-tools page-tools"><label class="upload-label">＋ Add photos<input class="page-photo-input" type="file" accept="image/*" multiple></label><button class="reset remove-page" type="button">Delete this page</button></div>`;
+ const photos=section.querySelector('.page-photos');
+ (data.photos||[]).forEach(p=>{const img=document.createElement('img');img.src=p.src;img.alt=p.alt||'Project photo';photos.appendChild(wrapImage(img));});
+ section.querySelector('.page-photo-input').addEventListener('change',async e=>{for(const f of [...e.target.files]){const src=await handleUpload(f,null);if(src){const img=document.createElement('img');img.src=src;img.alt=f.name;photos.appendChild(wrapImage(img));decoratePhotos();}}e.target.value='';});
+ section.querySelector('.remove-page').addEventListener('click',()=>{if(editing&&confirm('Delete this entire page?'))section.remove();});
+ document.getElementById('extraPages').appendChild(section);
+ section.querySelectorAll('.editable').forEach(e=>e.contentEditable=editing?'true':'false');
+ section.querySelectorAll('.photo-wrap').forEach(w=>w.classList.toggle('editing',editing));
+ decoratePhotos();
+}
+document.getElementById('addPage').addEventListener('click',()=>{if(!editing)return;addPage();document.querySelector('#extraPages').lastElementChild.scrollIntoView({behavior:'smooth'});});
+
+async function save(){
+ try{
+  const texts=[...document.querySelectorAll('.editable')].map(e=>e.innerHTML);
+  const photos=[...document.querySelectorAll('main img')].map(i=>({src:i.src,alt:i.alt}));
+  const pages=[...document.querySelectorAll('#extraPages .extra-page')].map(s=>({
+   title:s.querySelector('h2')?.innerHTML||'New Page',
+   description:s.querySelector('.heading p')?.innerHTML||'',
+   photos:[...s.querySelectorAll('.page-photos img')].map(i=>({src:i.src,alt:i.alt}))
+  }));
+  const data={texts,photos,hero:document.getElementById('hero').style.backgroundImage,pages};
+  await dbSet(data);status.textContent='Saved on this device ✓';
+ }catch(err){console.error(err);status.textContent='Could not save. Your browser may be out of storage space.';}
+}
+async function load(){
+ try{
+  const data=await dbGet();if(!data){decoratePhotos();return;}
+  document.querySelectorAll('.editable').forEach((e,i)=>{if(data.texts?.[i]!==undefined)e.innerHTML=data.texts[i];});
+  const imgs=[...document.querySelectorAll('main img')];(data.photos||[]).forEach((p,i)=>{if(imgs[i]){imgs[i].src=p.src;imgs[i].alt=p.alt||'';}});
+  if(data.hero)document.getElementById('hero').style.backgroundImage=data.hero;
+  (data.pages||[]).forEach(addPage);
+ }catch(e){console.warn('Could not load saved site',e);decoratePhotos();}
+ decoratePhotos();
+}
+document.getElementById('save').addEventListener('click',save);
+document.getElementById('finish').addEventListener('click',async()=>{await save();setEditing(false);});
+document.getElementById('reset').addEventListener('click',async()=>{if(confirm('Restore the original website? This removes saved text, pages, photos and background changes.')){await dbClear();location.reload();}});
+load();
+</script></body></html>
